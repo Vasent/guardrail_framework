@@ -1,0 +1,221 @@
+<mxfile host="app.diagrams.net" modified="2026-03-21T12:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram id="guardrails-wellness-graph" name="Guardrails Wellness LangGraph">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Mental Wellness Assistant with Guardrails — LangGraph Architecture" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="560" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- START node -->
+        <mxCell id="start" value="START" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- regex_input_guard -->
+        <mxCell id="regex_in" value="regex_input_guard&#xa;&#xa;Scans for: PII, SQL injection,&#xa;prompt injection (instant)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="170" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Edge: START -> regex_input_guard -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#1a1a2e;strokeWidth=2;" edge="1" source="start" target="regex_in" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- INPUT GUARDRAILS label -->
+        <mxCell id="input_label" value="INPUT GUARDRAILS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="790" y="190" width="130" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- nlp_input_guard -->
+        <mxCell id="nlp_in" value="nlp_input_guard&#xa;&#xa;LLM checks: toxic? off-topic?&#xa;self-harm? manipulation? (~1s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="310" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Conditional diamond after regex input -->
+        <mxCell id="d1" value="pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="595" y="265" width="70" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;" edge="1" source="regex_in" target="d1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2a" value="PASS" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontSize=10;fontStyle=2;" edge="1" source="d1" target="nlp_in" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- blocked_response node -->
+        <mxCell id="blocked" value="blocked_response&#xa;&#xa;Shows safe error message&#xa;+ crisis helpline info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontSize=12;align=center;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="560" width="230" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- FAIL edges to blocked -->
+        <mxCell id="e2b" value="FAIL" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;fontSize=10;fontStyle=2;dashed=1;" edge="1" source="d1" target="blocked" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Conditional diamond after NLP input -->
+        <mxCell id="d2" value="pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="595" y="405" width="70" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;" edge="1" source="nlp_in" target="d2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3b" value="FAIL" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;fontSize=10;fontStyle=2;dashed=1;" edge="1" source="d2" target="blocked" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- process_request -->
+        <mxCell id="process" value="process_request&#xa;&#xa;Generates personalized&#xa;wellness advice using LLM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="480" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3a" value="PASS" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontSize=10;fontStyle=2;" edge="1" source="d2" target="process" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AGENT GUARDRAIL label -->
+        <mxCell id="agent_label" value="AGENT GUARDRAIL" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="790" y="600" width="120" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- guardrail_agent -->
+        <mxCell id="agent" value="guardrail_agent&#xa;&#xa;AI reviews response:&#xa;APPROVE / MODIFY / BLOCK&#xa;Can rewrite the response!" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="600" width="280" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" source="process" target="agent" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Conditional diamond after agent -->
+        <mxCell id="d3" value="pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="595" y="710" width="70" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;" edge="1" source="agent" target="d3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5b" value="BLOCK" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;fontSize=10;fontStyle=2;dashed=1;" edge="1" source="d3" target="blocked" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- OUTPUT GUARDRAILS label -->
+        <mxCell id="output_label" value="OUTPUT GUARDRAILS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#e6a817;" vertex="1" parent="1">
+          <mxGeometry x="790" y="780" width="140" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- regex_output_guard -->
+        <mxCell id="regex_out" value="regex_output_guard&#xa;&#xa;Scans output for PII leaks&#xa;REDACTS (does not block)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="770" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5a" value="APPROVE/MODIFY" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontSize=10;fontStyle=2;" edge="1" source="d3" target="regex_out" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- nlp_output_guard -->
+        <mxCell id="nlp_out" value="nlp_output_guard&#xa;&#xa;LLM checks: is wellness advice&#xa;safe and responsible? (~1s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="880" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;" edge="1" source="regex_out" target="nlp_out" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Conditional diamond after NLP output -->
+        <mxCell id="d4" value="pass?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="595" y="980" width="70" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;strokeWidth=2;" edge="1" source="nlp_out" target="d4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7b" value="FAIL" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=2;fontSize=10;fontStyle=2;dashed=1;" edge="1" source="d4" target="blocked" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- deliver_response -->
+        <mxCell id="deliver" value="deliver_response&#xa;&#xa;All 5 guardrails passed!&#xa;Deliver safe wellness advice." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="490" y="1050" width="280" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7a" value="PASS" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;strokeWidth=2;fontSize=10;fontStyle=2;" edge="1" source="d4" target="deliver" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- END node -->
+        <mxCell id="end" value="END" style="ellipse;whiteSpace=wrap;html=1;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="1170" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Edges to END -->
+        <mxCell id="e8a" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#1a1a2e;strokeWidth=2;" edge="1" source="deliver" target="end" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8b" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#999999;strokeWidth=2;" edge="1" source="blocked" target="end" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend box -->
+        <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="210" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_title" value="LEGEND" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="85" width="65" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="55" y="120" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1t" value="Input Guardrails" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="113" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="55" y="150" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2t" value="Processing Node" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="143" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="55" y="180" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3t" value="Agent Guardrail" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="173" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="55" y="210" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4t" value="Output Guardrails" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="203" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="55" y="240" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg5t" value="Delivery Node" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="233" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="55" y="270" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg6t" value="Blocked Response" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="263" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="leg7" value="" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="52" y="297" width="25" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg7t" value="Conditional Edge" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="293" width="110" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
